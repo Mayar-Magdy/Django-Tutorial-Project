@@ -31,4 +31,8 @@ class UserSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
-        fields = ['url', 'name']
+        fields = ['url', 'name'] 
+
+
+class GroupCreateUpdateSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=150)

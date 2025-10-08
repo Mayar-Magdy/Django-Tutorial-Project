@@ -6,10 +6,12 @@ from rest_framework_simplejwt.views import (
 )
 from tutorial.quickstart import views
 
+
 router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet)
-router.register(r"groups", views.GroupViewSet)
-
+# router.register(r"groups", views.GroupViapewSet),
+router.register(r'UsersApi' , views.UserViewSet_one , basename='userapi' ),
+router.register(r'groupsApi', views.GroupViewSet_One) 
 
 urlpatterns = [
     path("", include(router.urls)),
