@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User , Group
-from rest_framework import viewsets , permissions 
+from rest_framework import viewsets , permissions , status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from tutorial.quickstart.serializers import UserSerializer ,UserCreateSerializer, GroupSerializer, GroupCreateUpdateSerializer
 
 from tutorial.quickstart.permissions import IsOwnerOrAdmin
@@ -9,12 +10,24 @@ from tutorial.quickstart.permissions import IsOwnerOrAdmin
 from tutorial.quickstart.selectors import list_users , get_user_by_id , list_groups
 # services
 from tutorial.quickstart.services import create_user , create_group, update_group, delete_group
-
+# celery
+# from .tasks import add 
 
 
 # Get method using selectors and Post using services for user
 class UserViewSet_one(viewsets.ViewSet):
-        permission_classes = [permissions.IsAuthenticated ]
+        # permission_classes = [permissions.IsAuthenticated ]
+
+        def get_permissions(self):
+   
+        #  (create/sign-up)
+         if self.action == 'create':
+            permission_classes = [permissions.AllowAny]
+         else:
+            permission_classes = [permissions.IsAuthenticated]
+        
+         return [permission() for permission in permission_classes]
+
 
         def list(self, request):
            users = list_users()
@@ -97,3 +110,7 @@ class GroupViewSet_One(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         delete_group(group=instance)
+
+
+
+
