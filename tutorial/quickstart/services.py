@@ -1,6 +1,8 @@
 # services
 from django.db import transaction
 from django.contrib.auth.models import User , Group
+from .tasks import send_welcome_email
+
 
 @transaction.atomic
 def create_user(username: str , email: str , password: str) -> User:
@@ -9,6 +11,8 @@ def create_user(username: str , email: str , password: str) -> User:
         email=email,
         password =password
     )
+    send_welcome_email.delay(user.id)
+    print(f"User {user.username} created, and welcome email task has been dispatched.")
     return user
 
 
