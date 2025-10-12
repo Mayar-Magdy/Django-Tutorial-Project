@@ -25,10 +25,9 @@ class UserViewSetTests(APITestCase):
         response = self.client.get(self.list_url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertEqual(len(response.data), 2)
+
         self.assertContains(response, self.user1.username)
         self.assertContains(response, self.user2.username)
-        # self.assertIn('url', response.data[0])
 
     def test_create_user_uses_create_serializer(self):
 
