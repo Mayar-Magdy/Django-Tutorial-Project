@@ -11,7 +11,7 @@ def get_user_by_id(user_id: int):
 
 
 def list_groups():
-    return Group.objects.all()
+    return Group.objects.all().order_by('id')
 
 def get_group_by_id(group_id: int) -> Group:
     return Group.objects.get(id=group_id)
